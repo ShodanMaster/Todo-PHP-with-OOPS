@@ -167,7 +167,24 @@
                 processData: false,
                 success: function (response) {
                     console.log(response);
+                    if (response.status === 200) {
                     
+                        swal({
+                            title: "Success!",
+                            text: response.message,
+                            icon: "success",
+                            button: "OK",
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        swal({
+                            title: "Error!",
+                            text: response.message,
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }  
                 }
             });
         });
