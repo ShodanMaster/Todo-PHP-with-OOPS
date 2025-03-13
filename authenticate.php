@@ -49,15 +49,13 @@
         <!-- Signup Form -->
         <form id="signup-form" style="display: none;">
             <div class="card-body">
-                
                 <div class="form-group mb-3">
-                    <input type="username" class="form-control" name="username" id="signup-username" placeholder="Username" required>
+                    <input type="text" class="form-control" name="username" id="signup-username" placeholder="Username" required>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <input type="password" class="form-control" name="password" id="signup-password" placeholder="Password" required>
-                            <!-- Toggle show password -->
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="show-signup-password" />
                                 <label class="form-check-label" for="show-signup-password">Show Password</label>
@@ -66,7 +64,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <input type="password" class="form-control" name="password_confirmation" id="signup-password-confirmation" placeholder="Confirmation Password" required>
+                            <input type="password" class="form-control" name="password_confirmation" id="signup-password-confirmation" placeholder="Confirm Password" required>
                         </div>
                     </div>
                 </div>
@@ -77,119 +75,13 @@
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-end">
-                <button class="btn btn-primary">Signup</button>
+                <button type="submit" class="btn btn-primary">Signup</button>
             </div>
         </form>
     </div>
 </div>
 <script src= "js/jquery/jquery-3.6.0.min.js"></script>
-    <script src="bootstrap/bootstrap.bundle.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#show-signup-form').click(function() {
-            $('#login-form').hide();
-            $('#signup-form').show();
-            $('#form-title').text('Signup');
-        });
-
-        // Show login form when the "Login" link in the signup form is clicked
-        $('#show-login-form').click(function() {
-            $('#signup-form').hide();
-            $('#login-form').show();
-            $('#form-title').text('Login');
-        });
-
-        // Toggle password visibility for login form
-        $('#show-password').change(function() {
-            var passwordField = $('#password');
-            if ($(this).prop('checked')) {
-                passwordField.attr('type', 'text');
-            } else {
-                passwordField.attr('type', 'password');
-            }
-        });
-
-        // Toggle password visibility for signup form (password)
-        $('#show-signup-password').change(function() {
-            var signupPasswordField = $('#signup-password');
-            if ($(this).prop('checked')) {
-                signupPasswordField.attr('type', 'text');
-            } else {
-                signupPasswordField.attr('type', 'password');
-            }
-        });
-
-        $(document).on('submit', '#login-form', function (e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-            
-            $.ajax({
-                type: "POST",
-                url: "actions/login.php?action=login",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                    
-                        swal({
-                            title: "Success!",
-                            text: response.message,
-                            icon: "success",
-                            button: "OK",
-                        }).then(() => {
-                            window.location.href = response.url;
-                        });
-                    } else {
-                        swal({
-                            title: "Error!",
-                            text: response.message,
-                            icon: "error",
-                            button: "OK",
-                        });
-                    }                    
-                }
-            });
-        });
-
-        $(document).on('submit', '#signup-form', function (e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-            
-            $.ajax({
-                type: "POST",
-                url: "actions/login.php?action=signup",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                    
-                        swal({
-                            title: "Success!",
-                            text: response.message,
-                            icon: "success",
-                            button: "OK",
-                        }).then(() => {
-                            window.location.reload();
-                        });
-                    } else {
-                        swal({
-                            title: "Error!",
-                            text: response.message,
-                            icon: "error",
-                            button: "OK",
-                        });
-                    }  
-                }
-            });
-        });
-        
-    });
-</script>
+<script src="bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/actions/authenticate.js"></script>
 </body>
 </html>

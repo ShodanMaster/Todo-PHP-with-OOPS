@@ -31,5 +31,9 @@ class LoginController extends User{
         $registered = $this->registered($username, $password);
         return json_encode($registered);
     }
+
+    public function validate($username, $password, $confirmPasswrod = null) {
+
+    }
     
 }
