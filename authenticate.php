@@ -34,14 +34,7 @@
                     <p>Don't have an account? <a href="javascript:void(0);" id="show-signup-form">Sign up</a></p>
                 </div>
             </div>
-            <div class="card-footer d-flex justify-content-between">
-                
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe" />
-                    <label class="form-check-label" for="rememberMe">Remember me</label>
-                </div>
-
+            <div class="card-footer d-flex justify-content-end">
                 <button class="btn btn-primary">Login</button>
             </div>
         </form>

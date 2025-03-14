@@ -4,15 +4,13 @@ $(document).ready(function () {
         $('#signup-form').show();
         $('#form-title').text('Signup');
     });
-
-    // Show login form when the "Login" link in the signup form is clicked
+    
     $('#show-login-form').click(function() {
         $('#signup-form').hide();
         $('#login-form').show();
         $('#form-title').text('Login');
     });
-
-    // Toggle password visibility for login form
+    
     $('#show-password').change(function() {
         var passwordField = $('#password');
         if ($(this).prop('checked')) {
@@ -21,8 +19,7 @@ $(document).ready(function () {
             passwordField.attr('type', 'password');
         }
     });
-
-    // Toggle password visibility for signup form (password)
+    
     $('#show-signup-password').change(function() {
         var signupPasswordField = $('#signup-password');
         if ($(this).prop('checked')) {
@@ -82,7 +79,7 @@ $(document).ready(function () {
             data: formData,
             contentType: false,
             processData: false,
-            dataType: "json", // Ensure JSON response
+            dataType: "json", 
             success: function (response) {
                 if (response.status === 200) {
                     Swal.fire({
@@ -91,7 +88,7 @@ $(document).ready(function () {
                         icon: "success",
                         button: "OK",
                     }).then(() => {
-                        window.location.href = response.url || "index.php"; // Redirect after signup
+                        window.location.href = response.url || "index.php"; 
                     });
                 } else {
                     Swal.fire({

@@ -3,13 +3,6 @@
 require_once("../models/User.php");
 
 class LoginController extends User{
-    private $username;
-    private $password;
-
-    // public function __construct($username, $password){  
-    //     $this->username = $username;
-    //     $this->password = $password;
-    // }
 
     public function authenticate($username, $password) {
         $authenticated = $this->authenticated($username, $password);

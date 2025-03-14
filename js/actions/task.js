@@ -131,7 +131,6 @@ $(document).ready(function () {
 
     $(document).on("click", ".delete-btn", function () {
         let taskId = $(this).data("id");
-        // console.log(taskId);
         
         Swal.fire({
             title: "Are you sure?",
@@ -156,8 +155,7 @@ $(document).ready(function () {
                         console.log(response);
                         
                         Swal.fire("Deleted!", "Your task has been deleted.", "success");
-
-                        // table.ajax.reload();
+                        
                         table.draw();
                     },
                     error: function () {
@@ -173,7 +171,6 @@ $(document).ready(function () {
         let currentStatus = $(this).data("status");
         
         let newStatus = currentStatus === "completed" ? "pending" : "completed";
-        // console.log(newStatus);
         
         Swal.fire({
             title: "Update Status?",
@@ -197,8 +194,7 @@ $(document).ready(function () {
                     success: function (response) {
                         
                         Swal.fire("Updated!", "Your status has been updated.", "success");
-
-                        // table.ajax.reload();
+                        
                         table.draw();
                     },
                     error: function () {

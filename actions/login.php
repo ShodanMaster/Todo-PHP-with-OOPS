@@ -5,8 +5,6 @@ $authenticate = new LoginController();
 
 $action = $_REQUEST['action'] ??'';
 
-// echo "Login Inside";exit;
-
 header('Content-Type: application/json');
 
 
@@ -18,13 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($action == 'login'){
         $response = $authenticate->authenticate($username, $password);
         echo $response;
-        // print_r($response);
-        // if($response['status'] === 200){
-        //     header('location:'.$response['url']);
-        // }
-        // else{
-
-        // }
     }
     
     if($action == 'signup'){

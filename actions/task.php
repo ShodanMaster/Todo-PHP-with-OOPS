@@ -43,14 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($action === 'delete') {
-        // echo $id;exit;
+        
         $response = $taskController->deleteTask($id);
         echo $response;
         exit;
     }
 
     if ($action === 'status') {
-        // print_r($_POST);exit;
+        
         $response = $taskController->updateStatus($id, $status);
         echo $response;
         exit;

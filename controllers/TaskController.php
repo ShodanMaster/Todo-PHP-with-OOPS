@@ -8,8 +8,7 @@ class TaskController extends Task{
         $tasksJson = $this->userTasks();
 
         $tasks = json_decode($tasksJson, true);
-
-        // print_r($tasks);exit;
+        
         if ($tasks === null || !isset($tasks['data'])) {
             return json_encode([
                 "status" => 500,
@@ -19,11 +18,9 @@ class TaskController extends Task{
         }
 
         return json_encode($tasks);
-
-        // return json_encode($tasks);
     }
     public function addTask($title, $priority){
-        // echo $title." asdfasdf ".$priority." ";
+        
         $addTask = $this->taskAdd($title, $priority);
         return json_encode($addTask);
     }
