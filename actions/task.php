@@ -40,6 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo $response;
         exit;
     }
+
+    if ($action === 'delete') {
+        // echo $id;exit;
+        $response = $taskController->deleteTask($id);
+        echo $response;
+        exit;
+    }
 }
 
 echo json_encode(["status" => 405, "message" => "Method Not Allowed"]);

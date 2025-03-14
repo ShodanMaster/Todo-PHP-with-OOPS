@@ -1,8 +1,8 @@
 $(document).ready(function () {
-       
-    $('#tasksTable').DataTable({
-        processing: true,  // Show processing indicator
-        serverSide: true,  // Enable server-side processing
+
+    var table = $('#tasksTable').DataTable({
+        processing: true,
+        serverSide: true,
         ajax: {
             url: "actions/task.php",
             type: "GET"
@@ -27,14 +27,12 @@ $(document).ready(function () {
                 }
             }
         ],
-        pageLength: 5,  // Default page size
+        pageLength: 5,
         lengthMenu: [[5, 10, 25, -1], [5, 10, 25, "All"]]
     });
 
-    $(document).on('submit', '#task-form',function (e) {
+    $(document).on('submit', '#task-form', function (e) {
         e.preventDefault();
-
-        console.log('Inside');
 
         var formData = new FormData(this);
 
@@ -45,43 +43,38 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response);
                 if(response.status === 200){
-                    swal({
+                    Swal.fire({
                         title: "Success!",
                         text: response.message,
                         icon: "success",
-                        button: "OK",
+                        confirmButtonText: "OK",
                     }).then(() => {
-                        window.location.reload();
+                        table.ajax.reload();
+                        $('#addTaskModal').modal('hide');
                     });
                 } 
             }
         });
-        
+
     });
 
     $('#addTaskModal').on('hidden.bs.modal', function () {
-        $(this).find('form')[0].reset(); // Reset the form fields
+        $(this).find('form')[0].reset();
     });
 
     $(document).on("click", ".edit-btn", function () {
         let taskId = $(this).data("id");
         let title = $(this).data("title");
         let priority = $(this).data("priority");
-    
-        console.log(taskId, title, priority);
-        
-        // Populate modal fields
+
         $("#edit-id").val(taskId);
         $("#edit-title").val(title);
         $("#edit-priority").val(priority);
     });
 
-    $(document).on('submit', '#edit-form',function (e) {
+    $(document).on('submit', '#edit-form', function (e) {
         e.preventDefault();
-
-        console.log('Inside');
 
         var formData = new FormData(this);
 
@@ -92,19 +85,77 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log(response);
                 if(response.status === 200){
-                    swal({
+                    Swal.fire({
                         title: "Success!",
                         text: response.message,
                         icon: "success",
-                        button: "OK",
+                        confirmButtonText: "OK",
+                    }).then(() => {
+                        table.draw();
+                        $('#editTaskModal').modal('hide');
+                    });
+                }else if(response.status === 403){
+                    Swal.fire({
+                        title: "Warning!",
+                        text: response.message,
+                        icon: "warning",
+                        confirmButtonText: "OK",
                     }).then(() => {
                         window.location.reload();
                     });
-                } 
+                }else{
+                    Swal.fire({
+                        title: "Error!",
+                        text: response.message,
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
             }
         });
-        
+
     });
+
+    $(document).on("click", ".delete-btn", function () {
+        let taskId = $(this).data("id");
+        // console.log(taskId);
+        
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var formData = new FormData();
+                formData.append('id', taskId);
+
+                $.ajax({
+                    type: "POST",
+                    url: "actions/task.php?action=delete",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log(response);
+                        
+                        Swal.fire("Deleted!", "Your task has been deleted.", "success");
+
+                        // table.ajax.reload();
+                        table.draw();
+                    },
+                    error: function () {
+                        Swal.fire("Error!", "Something went wrong.", "error");
+                    }
+                });
+            }
+        });
+    });
+
 });

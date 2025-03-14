@@ -32,4 +32,9 @@ class TaskController extends Task{
         $editTask = $this->taskEdit($id, $title, $priority);
         return json_encode($editTask);
     }
+
+    public function deleteTask($id){
+        $deleteTask = $this->taskDelete($id);
+        return json_encode($deleteTask);
+    }
 }
