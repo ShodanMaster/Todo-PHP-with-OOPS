@@ -16,12 +16,22 @@ $(document).ready(function () {
             },
             { data: "title" },
             { data: "priority" },
-            { data: "status"},
+            { 
+                data: null,
+                render: function (data, type, row) {
+                    let statusClass = row.status === "completed" ? "btn-success" : "btn-warning";
+                    let statusText = row.status === "completed" ? "Completed" : "Pending";
+                
+                    return `
+                        <button class="btn btn-sm ${statusClass} status-btn" value="${row.status}" data-id="${row.id}" data-status="${row.status}" title="Update Status">${statusText}</button>
+                    `;
+                }
+            },
             { 
                 data: null,
                 render: function (data, type, row) {
                     return `
-                        <button class="btn btn-sm btn-warning edit-btn"  data-bs-toggle="modal" data-bs-target="#editTaskModal" data-id="${row.id}" data-title="${row.title}" data-priority="${row.priority}">Edit</button>
+                        <button class="btn btn-sm btn-info edit-btn"  data-bs-toggle="modal" data-bs-target="#editTaskModal" data-id="${row.id}" data-title="${row.title}" data-priority="${row.priority}">Edit</button>
                         <button class="btn btn-sm btn-danger delete-btn" data-id="${row.id}">Delete</button>
                     `;
                 }
@@ -146,6 +156,47 @@ $(document).ready(function () {
                         console.log(response);
                         
                         Swal.fire("Deleted!", "Your task has been deleted.", "success");
+
+                        // table.ajax.reload();
+                        table.draw();
+                    },
+                    error: function () {
+                        Swal.fire("Error!", "Something went wrong.", "error");
+                    }
+                });
+            }
+        });
+    });
+
+    $(document).on("click", ".status-btn", function () {
+        let taskId = $(this).data("id");
+        let currentStatus = $(this).data("status");
+        
+        let newStatus = currentStatus === "completed" ? "pending" : "completed";
+        // console.log(newStatus);
+        
+        Swal.fire({
+            title: "Update Status?",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, update it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var formData = new FormData();
+                formData.append('id', taskId);
+                formData.append('status', newStatus);
+
+                $.ajax({
+                    type: "POST",
+                    url: "actions/task.php?action=status",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        
+                        Swal.fire("Updated!", "Your status has been updated.", "success");
 
                         // table.ajax.reload();
                         table.draw();

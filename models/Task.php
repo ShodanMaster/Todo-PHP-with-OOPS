@@ -201,6 +201,43 @@ class Task extends Dbconfig{
             return ["status" => 500, "message" => "Database Error: " . $e->getMessage()];
         }
     }
+
+    protected function statusUpdate($id, $status) {
+        try {
+            $conn = $this->connect();
+            $conn->begin_transaction();
     
+            $sql = "SELECT user_id FROM tasks WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            if ($result->num_rows > 0) {
+                $task = $result->fetch_assoc();
+    
+                if ($task['user_id'] == $this->userId) {
+                    $sql = "UPDATE tasks SET status = ? WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("si", $status, $id);
+    
+                    if ($stmt->execute()) {
+                        $conn->commit();
+                        return json_encode(['status' => 200, 'message' => 'Status Updated Successfully']);
+                    } else {
+                        $conn->rollback();
+                        return json_encode(["status" => 500, "message" => "Status Update Failed"]);
+                    }
+                } else {
+                    return json_encode(["status" => 403, "message" => "Unauthorized Access"]);
+                }
+            } else {
+                return json_encode(["status" => 404, "message" => "Task Not Found"]);
+            }
+        } catch (mysqli_sql_exception $e) {
+            $conn->rollback();
+            return json_encode(["status" => 500, "message" => "Database Error: " . $e->getMessage()]);
+        }
+    }   
     
 }

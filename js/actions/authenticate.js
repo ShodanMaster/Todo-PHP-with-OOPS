@@ -47,7 +47,7 @@ $(document).ready(function () {
                 console.log(response);
                 if (response.status === 200) {
                 
-                    swal({
+                    Swal.fire({
                         title: "Success!",
                         text: response.message,
                         icon: "success",
@@ -56,7 +56,7 @@ $(document).ready(function () {
                         window.location.href = response.url;
                     });
                 } else {
-                    swal({
+                    Swal.fire({
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -85,7 +85,7 @@ $(document).ready(function () {
             dataType: "json", // Ensure JSON response
             success: function (response) {
                 if (response.status === 200) {
-                    swal({
+                    Swal.fire({
                         title: "Success!",
                         text: response.message,
                         icon: "success",
@@ -94,7 +94,7 @@ $(document).ready(function () {
                         window.location.href = response.url || "index.php"; // Redirect after signup
                     });
                 } else {
-                    swal({
+                    Swal.fire({
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -103,7 +103,7 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                swal({
+                Swal.fire({
                     title: "Error!",
                     text: "Something went wrong. Please try again!",
                     icon: "error",
@@ -119,7 +119,7 @@ $(document).ready(function () {
         let confirmPassword = $("#signup-password-confirmation").val().trim();
 
         if (username === "" || password === "" || confirmPassword === "") {
-            swal({
+            Swal.fire({
                 title: "Error!",
                 text: "All fields are required!",
                 icon: "error",
@@ -129,7 +129,7 @@ $(document).ready(function () {
         }
 
         if (password.length < 6) {
-            swal({
+            Swal.fire({
                 title: "Error!",
                 text: "Password must be at least 6 characters long!",
                 icon: "error",
@@ -139,7 +139,7 @@ $(document).ready(function () {
         }
 
         if (password !== confirmPassword) {
-            swal({
+            Swal.fire({
                 title: "Error!",
                 text: "Passwords do not match!",
                 icon: "error",

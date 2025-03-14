@@ -37,4 +37,8 @@ class TaskController extends Task{
         $deleteTask = $this->taskDelete($id);
         return json_encode($deleteTask);
     }
+    public function updateStatus($id, $status){
+        $updateStatus = $this->statusUpdate($id, $status);
+        return json_encode($updateStatus);
+    }
 }

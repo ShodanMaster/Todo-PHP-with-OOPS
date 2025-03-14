@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"] ?? "";
     $title = $_POST["title"] ?? "";
     $priority = $_POST["priority"] ?? "";
+    $status = $_POST["status"] ?? "";
 
     if ($action === 'add') {
         $response = $taskController->addTask($title, $priority);
@@ -44,6 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($action === 'delete') {
         // echo $id;exit;
         $response = $taskController->deleteTask($id);
+        echo $response;
+        exit;
+    }
+
+    if ($action === 'status') {
+        // print_r($_POST);exit;
+        $response = $taskController->updateStatus($id, $status);
         echo $response;
         exit;
     }

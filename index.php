@@ -95,6 +95,11 @@ include("app/header.php");
             <tbody></tbody>
         </table>
     </div>
+    <div class="card-footer d-flex justify-content-end">
+        <form action="actions/logout.php" method="post">
+            <button class="btn btn-outline-danger" type="submit">Logout</button>
+        </form>
+    </div>
 </div>
 
 <?php
