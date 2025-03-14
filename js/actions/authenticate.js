@@ -70,9 +70,9 @@ $(document).ready(function () {
     $(document).on("submit", "#signup-form", function (e) {
         e.preventDefault();
 
-        if (!validateForm()) {
-            return;
-        }
+        // if (!validateForm()) {
+        //     return;
+        // }
 
         var formData = new FormData(this);
 
@@ -84,6 +84,8 @@ $(document).ready(function () {
             processData: false,
             dataType: "json", // Ensure JSON response
             success: function (response) {
+                console.log(response);
+                
                 if (response.status === 200) {
                     swal({
                         title: "Success!",

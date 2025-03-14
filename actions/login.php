@@ -13,6 +13,7 @@ header('Content-Type: application/json');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
+    $confirmPassword = $_POST['password_confirmation'] ?? '';
     
     if($action == 'login'){
         $response = $authenticate->authenticate($username, $password);
@@ -27,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     if($action == 'signup'){
-       $response = $authenticate->register($username, $password);
+       $response = $authenticate->register($username, $password, $confirmPassword);
        echo $response;
     }
 }
