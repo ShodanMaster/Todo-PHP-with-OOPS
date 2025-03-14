@@ -14,7 +14,7 @@ class Task extends Dbconfig{
     }
 
     protected function userTasks() {
-        
+
         try {
             $conn = $this->connect();
     
@@ -32,7 +32,7 @@ class Task extends Dbconfig{
             $totalRecords = $stmt->get_result()->fetch_assoc()['count'];
     
             // Base query
-            $query = "SELECT id, title, priority FROM tasks WHERE user_id = ?";
+            $query = "SELECT id, title, status, priority FROM tasks WHERE user_id = ?";
             $params = [$_SESSION['user_id']];
             $types = "i";
     
@@ -117,4 +117,43 @@ class Task extends Dbconfig{
             return ["status" => 500, "message" => "Database error: " . $e->getMessage()];
         }
     }
+
+    protected function taskEdit($id, $title, $priority) {
+        try {
+            $conn = $this->connect();
+            $conn->begin_transaction();
+    
+            $sql = "SELECT user_id FROM tasks WHERE id=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            if ($result->num_rows > 0) {
+                $task = $result->fetch_assoc();
+    
+                if ($task['user_id'] == $this->userId) {
+                    $sql = "UPDATE tasks SET title=?, priority=? WHERE id=?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("ssi", $title, $priority, $id);
+    
+                    if ($stmt->execute()) {
+                        $conn->commit();
+                        return ['status' => 200, 'message' => 'Task Updated Successfully'];
+                    } else {
+                        $conn->rollback();
+                        return ["status" => 500, "message" => "Task Update Failed"];
+                    }
+                } else {
+                    return ["status" => 403, "message" => "Unauthorized Access"];
+                }
+            } else {
+                return ["status" => 404, "message" => "Task Not Found"];
+            }
+        } catch (mysqli_sql_exception $e) {
+            $conn->rollback();
+            return ["status" => 500, "message" => "Database Error: " . $e->getMessage()];
+        }
+    }
+    
 }

@@ -27,4 +27,9 @@ class TaskController extends Task{
         $addTask = $this->taskAdd($title, $priority);
         return json_encode($addTask);
     }
+
+    public function editTask($id, $title, $priority){
+        $editTask = $this->taskEdit($id, $title, $priority);
+        return json_encode($editTask);
+    }
 }

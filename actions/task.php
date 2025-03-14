@@ -25,11 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST["id"] ?? "";
     $title = $_POST["title"] ?? "";
     $priority = $_POST["priority"] ?? "";
 
     if ($action === 'add') {
         $response = $taskController->addTask($title, $priority);
+        echo $response;
+        exit;
+    }
+
+    if ($action === 'edit') {
+        $response = $taskController->editTask($id, $title, $priority);
         echo $response;
         exit;
     }
