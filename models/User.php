@@ -37,7 +37,7 @@ class User extends Dbconfig{
             $conn->begin_transaction();
 
             $query = "INSERT INTO users (username, password) VALUES (?, ?)";
-            $stmt = $this->connect()->prepare($query);
+            $stmt = $conn->prepare($query);
     
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt->bind_param("ss", $username, $hashed_password);
