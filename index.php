@@ -36,15 +36,24 @@ include("app/header.php");
   </div>
 </div>
 
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between mb-3">
     <h1>Hello <?php echo $_SESSION['username'] ?></h1>
     
     <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
         Add Task
     </button>
-
 </div>
 
+<table id="tasksTable" class="display">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Priority</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
 <?php
 include("app/footer.php");
