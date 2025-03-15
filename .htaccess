@@ -1,13 +1,13 @@
 RewriteEngine On
-RewriteBase /php/Todo-PHP-with-OOPS/
+RewriteBase /Todo-PHP-with-OOPS/
 
 # Allow direct access to existing files and directories
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Exclude "action" directory and authenticate.php from rewriting
-RewriteCond %{REQUEST_URI} !^/php/Todo-PHP-with-OOPS/action/ [NC]
-RewriteCond %{REQUEST_URI} !^/php/Todo-PHP-with-OOPS/authenticate.php$ [NC]
+RewriteCond %{REQUEST_URI} !^/Todo-PHP-with-OOPS/action/ [NC]
+RewriteCond %{REQUEST_URI} !^/Todo-PHP-with-OOPS/authenticate.php$ [NC]
 
 # Redirect all other requests to index.php
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
